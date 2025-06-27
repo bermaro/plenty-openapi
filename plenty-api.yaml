@@ -1,0 +1,104 @@
+openapi: 3.0.3
+info:
+  title: Bermaro Plenty API Proxy
+  version: 1.0.0
+servers:
+  - url: https://plenty-api-bermaro.a.run.app
+paths:
+  /order:
+    get:
+      summary: Bestellstatus abfragen
+      operationId: getOrder
+      parameters:
+        - name: id
+          in: query
+          required: true
+          schema:
+            type: string
+          description: Die Bestellnummer (Order ID)
+      responses:
+        '200':
+          description: Bestellinformationen erfolgreich abgerufen
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Order'
+
+  /tracking:
+    get:
+      summary: Trackingdaten abfragen
+      operationId: getTracking
+      parameters:
+        - name: id
+          in: query
+          required: true
+          schema:
+            type: string
+          description: Die Bestellnummer (Order ID)
+      responses:
+        '200':
+          description: Trackinginformationen erfolgreich abgerufen
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Tracking'
+
+  /article:
+    get:
+      summary: Artikelinformationen abfragen
+      operationId: getArticle
+      parameters:
+        - name: id
+          in: query
+          required: true
+          schema:
+            type: string
+          description: Die Artikelnummer
+      responses:
+        '200':
+          description: Artikelinformationen erfolgreich abgerufen
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Article'
+
+components:
+  schemas:
+    Order:
+      type: object
+      properties:
+        id:
+          type: string
+        status:
+          type: string
+        versandDatum:
+          type: string
+        artikel:
+          type: array
+          items:
+            type: object
+            properties:
+              name:
+                type: string
+              quantity:
+                type: integer
+
+    Tracking:
+      type: object
+      properties:
+        id:
+          type: string
+        trackingNumbers:
+          type: array
+          items:
+            type: string
+
+    Article:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        price:
+          type: number
